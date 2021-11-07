@@ -7,11 +7,106 @@
 
 </head>
 <body>
-  <h1>Documentation</h1>
+  <h1>Documentation Objectives</h1>
   <p>
    The purpose of this API is to build the server-side component of a Netflix type of application. The
 application will allow users to search through movie information 
   </p>
+
+  <table>
+    <tr>
+        <th>REQUEST</th>
+        <th>URL</th>
+        <th>HTTP METHDOD</th>
+        <th>REQUEST BODY DATA FORMAT</th>
+        <th>RESPONSE BODY DATA FORMAT</th>
+    </tr>
+    <tr>
+        <td>Return a list of ALL movies to the user</td>
+        <td>/movies</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON array holding data about all movies</td>
+    </tr>
+    <tr>
+        <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</td>
+        <td>/movies/:title</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding data about a single movie, containing the title, genre, director and release year. 
+           
+        </td>
+    </tr>
+    <tr>
+        <td>Return data about a genre (description) by name/title (e.g., “Documentary”)</td>
+        <td>/movies/:title/genre</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A text message indicating the genre(s) of a single movie 
+            
+        </td>
+    </tr>
+
+    <tr>
+        <td>Allow new users to register</td>
+        <td>/newUser</td>
+        <td>POST</td>
+        <td>A JSON object holding data about the new user
+            <br>
+            Example: {
+            firstName: 'Ken',
+            lastName: 'Washington'
+            username: 'kdwiii',
+            password: 'movies1',
+            emailAddress: 'kenWashington@gmail.com'
+            }
+        </td>
+    </tr>
+    <tr>
+        <td>Allow users to update their user info (username)</td>
+        <td>/newUser/:id/info</td>
+        <td>PUT</td>
+        <td>A JSON object holding data about the updated user information
+            
+        </td>
+        <td>A text message indicating the user information was updated
+            <br>
+            Example: "Your username and password were successfuly updated."
+        </td>
+    </tr>
+    <tr>
+        <td>Allow users to add a movie to their list of favorites</td>
+        <td>/newUser/:id/favourites</td>
+        <td>POST</td>
+        <td>A JSON object holding data about a single movie, containing the title, genre, director and release year. 
+            
+        </td>
+        <td>A text message indicating the user successfully added a new movie to their favourites
+            <br>
+            Example: "Spider-man was successfully added to your favourites."
+        </td>
+    </tr>
+    <tr>
+        <td>Allow users to remove a movie from their list of favorites</td>
+        <td>/newUser/:id/favourites</td>
+        <td>DELETE</td>
+        <td>None</td>
+        <td>A text message indicating the user successfully removed a movie from their favourites
+            <br>
+            Example: "Spider-man was successfully removed from your favourites."
+        </td>
+    </tr>
+    <tr>
+        <td>Allow existing users to deregister</td>
+        <td>/newUser</td>
+        <td>DELETE</td>
+        <td>None</td>
+        <td>A text message indicating the user successfully removed a movie from their favourites
+            <br>
+            Example: "Your account was successfully deleted."
+        </tr>
+    </tr>
+</table>
 
   
 
