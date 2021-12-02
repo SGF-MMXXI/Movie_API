@@ -22,6 +22,13 @@ application will allow users to search through movie information
         <th>RESPONSE BODY DATA FORMAT</th>
     </tr>
     <tr>
+        <td>Return the home page of myFlix App</td>
+        <td>/</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>Message saying 'Welcome to myFlix App'</td>
+    </tr>
+    <tr>
         <td>Return a list of ALL movies to the user</td>
         <td>/movies</td>
         <td>GET</td>
@@ -29,87 +36,194 @@ application will allow users to search through movie information
         <td>A JSON array holding data about all movies</td>
     </tr>
     <tr>
-        <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</td>
-        <td>/movies/:title</td>
+        <td>Return data about a single movie by title to the user</td>
+        <td>/movies/:Title</td>
         <td>GET</td>
         <td>None</td>
-        <td>A JSON object holding data about a single movie, containing the title, genre, director and release year. 
-           
+        <td>A JSON object holding data about a single movie, containing the title, description, genre, director, image URL, whether it's featured or not and the release year. 
+            <br>
+            Example: 
+            <br><code>
+                {
+                    "$oid":"6196a4f8d967121d4295aeb4"},"Title":"Zootopia","Description":"From the largest elephant to the smallest shrew, the city of Zootopia is a mammal metropolis where various animals live and thrive. When Judy Hopps (Ginnifer Goodwin) becomes the first rabbit to join the police force, she quickly learns how tough it is to enforce the law. Determined to prove herself, Judy jumps at the opportunity to solve a mysterious case. Unfortunately, that means working with Nick Wilde (Jason Bateman), a wily fox who makes her job even harder.","Genre":{"Name":"Animated","Description":"Animation is a method in which pictures are manipulated to appear as moving images. In traditional animation, images are drawn or painted by hand on transparent celluloid sheets to be photographed and exhibited on film."},"Director":{"Name":"Rich Moore","Bio":"Rich Moore is an American film and television animation director, screenwriter and voice actor. In addition to directing the films Wreck-It Ralph (2012) and co-directing Zootopia (2016) and Ralph Breaks the Internet (2018) for Walt Disney Animation Studios, he has worked on the animated television series The Simpsons, The Critic and Futurama. He is a two-time Emmy Award winner, a three-time Annie Award winner and an Academy Award winner. ","Birth":"1963-05-10"},"ImagePath":"Zootopia.png","Featured":true
+                }
+            }
+            </code>
         </td>
     </tr>
     <tr>
-        <td>Return data about a genre (description) by name/title (e.g., “Documentary”)</td>
-        <td>/movies/:title/genre</td>
+        <td>Return data about movies of a single genre</td>
+        <td>movies/genres/:Name</td>
         <td>GET</td>
         <td>None</td>
-        <td>A text message indicating the genre(s) of a single movie 
-            
+        <td>A JSON object holding data about a single genre 
+            <br>
+            Example:
+            <br><code>
+            {[
+                {
+                    "Genre": {
+                        "Name": "Documentary",
+                        "Description": "A documentary film or documentary is a non-fictional motion-picture intended to document reality, primarily for the purposes of instruction, education, or maintaining a historical record."
+                    },
+                    "Director": {
+                        "Name": "Penelope Spheeris",
+                        "Bio": "Penelope Spheeris is an American film director, producer, and screenwriter. She has directed both documentary and scripted films. Her best-known works include the trilogy titled The Decline of Western Civilization, each covering an aspect of Los Angeles underground culture, and Wayne's World, her highest-grossing film.",
+                        "Birth": "1946-12-02"
+                    },
+                    "Actors": [],
+                    "_id": "61969d41d967121d4295aeb1",
+                    "Title": "The Decline of Western Civilization",
+                    "Description": "Must See Movie!",
+                    "ImagePath": "TheDecline.png",
+                    "Featured": false
+                },
+                {
+                    "Genre": {
+                        "Name": "Documentary",
+                        "Description": "A documentary film or documentary is a non-fictional motion-picture intended to document reality, primarily for the purposes of instruction, education, or maintaining a historical record"
+                    },
+                    "Director": {
+                        "Name": "Stacy Peralta",
+                        "Bio": "Stacy Peralta is an American film director and entrepreneur. He was previously a professional skateboarder and surfer with the Zephyr Competition Team, also known as the Z-Boys, from Venice, California. ",
+                        "Birth": "1957-10-15"
+                    },
+                    "Actors": [],
+                    "_id": "6196a8ddd967121d4295aeb5",
+                    "Title": "Dogtown and Z-Boys",
+                    "Description": "Dogtown and Z-Boys directed and co-written by skateboard legend-turned-filmmaker Stacy Peralta, is the story of a group of accidental revolutionaries, gifted kids who inadvertently changed the world by doing what came naturally. It is also a unique documentary event: a ground-level, eyewitness account of the birth of an organic American pop culture phenomenon.",
+                    "ImagePath": "Dogtown.png",
+                    "Featured": false
+                },
+                {
+                    "Genre": {
+                        "Name": "Documentary",
+                        "Description": "A documentary film or documentary is a non-fictional motion-picture intended to document reality, primarily for the purposes of instruction, education, or maintaining a historical record"
+                    },
+                    "Director": {
+                        "Name": "Barry W. Blaustein",
+                        "Bio": "Barry W. Blaustein is an American comedy writer best known for his writing on Saturday Night Live and What's Alan Watching? and the screenplays for Coming to America, Coming 2 America and The Nutty Professor all written in collaboration with David Sheffield.",
+                        "Birth": "1948-03-23"
+                    },
+                    "Actors": [],
+                    "_id": "6196aaf3d967121d4295aeb7",
+                    "Title": "Beyond The Mat",
+                    "Description": "Barry Blaustein's honest, intimate, revealing, highly entertaining, and critically acclaimed behind-the-scenes look at wrestling, takes viewers beyond the ring and into the lives of the men and women who inhabit this colorful, competitive, and surprisingly complex world.",
+                    "ImagePath": "Beyond.png",
+                    "Featured": true
+                }
+            ]
+            }
+            </code>
         </td>
     </tr>
-
+    <tr>
+        <td>Return data about a director by name</td>
+        <td>/movies/director/:Name</td>
+        <td>GET</td>
+        <td>None</td>
+        <td>A JSON object holding the Name, Bio and Birthdate of a director
+            <br>
+            Example:
+            <br><code>
+                {
+                    "Name": "Betty Thomas",
+                    "Bio": "Betty Thomas is an American actress, director, and producer of television and motion pictures. She is known for her Emmy Award-winning role as Sergeant Lucy Bates on the television series Hill Street Blues.",
+                    "Birth": "1947-07-27"
+                } 
+            </code>
+        </td>
+    </tr>
     <tr>
         <td>Allow new users to register</td>
-        <td>/newUser</td>
+        <td>/users</td>
         <td>POST</td>
         <td>A JSON object holding data about the new user
             <br>
-            Example: {
-            firstName: 'Ken',
-            lastName: 'Washington'
-            username: 'kdwiii',
-            password: 'movies1',
-            emailAddress: 'kenWashington@gmail.com'
-            }
+            Example: 
+            <br><code>
+                { "username": "sammytest",
+        "password": "1234",
+        "email": "test@gmail.com",
+        "Birthday": "01/01/1990"
+        }
+            </code>
         </td>
+    
     </tr>
     <tr>
-        <td>Allow users to update their user info (username)</td>
-        <td>/newUser/:id/info</td>
+        <td>Allow users to update their user info</td>
+        <td>/users/:Username</td>
         <td>PUT</td>
-        <td>A JSON object holding data about the updated user information
-            
-        </td>
-        <td>A text message indicating the user information was updated
+        <td>A JSON object holding data the user wishes to update with at least one of the following fields: FirstName, LastName, Username, Email, Password, Birthdate.
             <br>
-            Example: "Your username and password were successfuly updated."
+            Example: 
+            <br><code>
+                {
+                    "FirstName" : "sammytest",
+                    "Password" : "1234"
+                }
+            </code>
         </td>
     </tr>
     <tr>
         <td>Allow users to add a movie to their list of favorites</td>
-        <td>/newUser/:id/favourites</td>
+        <td>/users/:Username/movies/:MovieID</td>
         <td>POST</td>
-        <td>A JSON object holding data about a single movie, containing the title, genre, director and release year. 
-            
-        </td>
-        <td>A text message indicating the user successfully added a new movie to their favourites
+        <td>None</td>
+        <td>A JSON object holding data about a user with an updated FavouriteMovies list
             <br>
-            Example: "Spider-man was successfully added to your favourites."
+            Example: 
+            <br><code>
+                {
+                    "_id": "618586c5ec86a4a75b2169a6",
+                    "FirstName": "sammy",
+                    "LastName": "test",
+                    "Username": "sammytest",
+                    "Email": "test@gmail.com",
+                    "Password": "1234",
+                    "Birthdate": "2004-04-05T00:00:00.000Z",
+                    "FavouriteMovies": [
+                        "6182de309c3e0b19943474dc"
+                    ],
+                    "__v": 0
+                }
+            </code>
         </td>
     </tr>
     <tr>
         <td>Allow users to remove a movie from their list of favorites</td>
-        <td>/newUser/:id/favourites</td>
+        <td>/users/:Username/movies/:MovieID</td>
         <td>DELETE</td>
         <td>None</td>
-        <td>A text message indicating the user successfully removed a movie from their favourites
+        <td>A JSON object holding data about a user with an updated FavouriteMovies list
             <br>
-            Example: "Spider-man was successfully removed from your favourites."
+            Example:
+            <br><code> 
+                {
+                    "_id": "618586c5ec86a4a75b2169a6",
+                    "FirstName": "sammy",
+                    "LastName": "test",
+                    "Username": "sammytest",
+                    "Email": "test@gmail.com",
+                    "Password": "1234",
+                    "Birthdate": "2004-04-05T00:00:00.000Z",
+                    "FavouriteMovies": [],
+                    "__v": 0
+                }
+            </code>
         </td>
     </tr>
     <tr>
         <td>Allow existing users to deregister</td>
-        <td>/newUser</td>
+        <td>/users</td>
         <td>DELETE</td>
         <td>None</td>
-        <td>A text message indicating the user successfully removed a movie from their favourites
+        <td>A text message indicating the user successfully deregistered.
             <br>
             Example: "Your account was successfully deleted."
         </tr>
     </tr>
 </table>
-
-  
-
-
 </body>
 </html>
