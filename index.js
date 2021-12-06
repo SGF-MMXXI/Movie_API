@@ -22,6 +22,10 @@ app.use(morgan('common'));
 app.use(express.static('public'));
 app.use(express.json());
 
+let auth = require('./auth')(app);
+
+const passport = require('passport');
+require('./passport');
 
 //MyFlixHomepage
 app.get('/', (req, res) => {
@@ -29,7 +33,7 @@ app.get('/', (req, res) => {
 });
 
 //Return All movies
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
     movies.find()
       .then((movies) => {
         res.status(201).json(movies);
@@ -41,7 +45,7 @@ app.get('/movies', (req, res) => {
   });
 
 //Return All Users
-  app.get("/users",function (req, res){
+  app.get("/users",passport.authenticate("jwt", { session: false }), (req, res) => {
     users.find()
     .then(function (users) {
       res.status(201).json(users);
