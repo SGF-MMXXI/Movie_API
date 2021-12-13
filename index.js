@@ -8,6 +8,8 @@ const models = require('./models.js');
 
 app = express();
 
+const { check, validationResult } = require('express-validator');
+
 const movies = models.movies;
 const users = models.users;
 const Genre = models.Genre;
@@ -19,6 +21,19 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const cors = require('cors');
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+      let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+      return callback(new Error(message ), false);
+    }
+    return callback(null, true);
+  }
+}));
 
 let auth = require('./auth.js')(app);
 
@@ -108,6 +123,7 @@ app.get('/movies/director/:Name',  passport.authenticate('jwt', { session: false
 
 //Add User
 app.post('/users',  passport.authenticate('jwt', { session: false}), (req, res) => {
+  let hashedPassword = Users.hashPassword(req.body.Password);
   users.findOne({ username: req.body.username })
     .then((user) => {
       if (user) {
@@ -115,7 +131,7 @@ app.post('/users',  passport.authenticate('jwt', { session: false}), (req, res) 
       } else {
         users.create({
             username: req.body.username,
-            password: req.body.password,
+            password: hashedpassword,
             email: req.body.email,
             Birthday: req.body.Birthday
           })
@@ -214,6 +230,7 @@ app.use((err, req, res, next) => {
   next();
 });
 
-app.listen(8080, () => {
-  console.log('Your app is listening on port 8080.');
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0',() => {
+ console.log('Listening on Port ' + port);
 });
