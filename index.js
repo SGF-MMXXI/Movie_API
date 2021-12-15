@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 bodyParser = require('body-parser');
 const models = require('./models.js');
-const { check, validationResult } = require('express-validator');
+
 
 app = express();
 
@@ -136,6 +136,10 @@ app.post('/users',
   check('email', 'email does not appear to be valid').isEmail(),
 ],
 (req, res) => {
+  const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+      return res.status(422).json({errors: validationErrors.array()});
+    }
   let hashedpassword = users.hashPassword(req.body.password);
   users.findOne({ username: req.body.username })
     .then((user) => {
@@ -175,6 +179,10 @@ app.put('/users/:username',  passport.authenticate('jwt', { session: false}),
   check('email', 'email does not appear to be valid').isEmail(),
 ],
 (req, res) => {
+  const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+      return res.status(422).json({errors: validationErrors.array()});
+    }
   users.findOneAndUpdate(
     {username: req.params.username},
     {$set: { 
