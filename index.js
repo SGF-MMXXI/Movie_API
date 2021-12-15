@@ -132,7 +132,7 @@ app.post('/users',
     'username',
     'username contains non alphnumeric characters - not allowed.'
   ).isAlphanumeric(),
-  check('password', 'password is required').not().isEmpty(),
+  check('password', 'password is required').not().isEmpty().isLength({ min: 5 }),
   check('email', 'email does not appear to be valid').isEmail(),
 ],
 (req, res) => {
