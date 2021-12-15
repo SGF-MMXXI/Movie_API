@@ -124,7 +124,18 @@ app.get('/movies/director/:Name',  passport.authenticate('jwt', { session: false
 });
 
 //Add User
-app.post('/users', (req, res) => {
+app.post('/users',
+// validation logic
+[
+  check('username', 'username is required').isLength({ min: 5 }),
+  check(
+    'username',
+    'username contains non alphnumeric characters - not allowed.'
+  ).isAlphanumeric(),
+  check('password', 'password is required').not().isEmpty(),
+  check('email', 'email does not appear to be valid').isEmail(),
+],
+(req, res) => {
   let hashedpassword = users.hashPassword(req.body.password);
   users.findOne({ username: req.body.username })
     .then((user) => {
@@ -152,7 +163,18 @@ app.post('/users', (req, res) => {
 });
 
 //Update User Data
-app.put('/users/:username',  passport.authenticate('jwt', { session: false}), (req, res) => {
+app.put('/users/:username',  passport.authenticate('jwt', { session: false}), 
+// validation logic
+[
+  check('username', 'username is required').isLength({ min: 5 }),
+  check(
+    'username',
+    'username contains non alphnumeric characters - not allowed.'
+  ).isAlphanumeric(),
+  check('password', 'password is required').not().isEmpty(),
+  check('email', 'email does not appear to be valid').isEmail(),
+],
+(req, res) => {
   users.findOneAndUpdate(
     {username: req.params.username},
     {$set: { 
