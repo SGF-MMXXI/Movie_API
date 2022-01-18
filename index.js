@@ -25,9 +25,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
 
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'https://myflix-sgf.herokuapp.com/' ];
 
-
-app.use(cors());
+app.use(cors({
+  origin: (origin, callback) => {
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
+      let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+      return callback(new Error(message ), false);
+    }
+    return callback(null, true);
+  }
+}));
 
 let auth = require('./auth.js')(app);
 
@@ -132,7 +141,7 @@ app.post('/users',
     if (!validationErrors.isEmpty()) {
       return res.status(422).json({errors: validationErrors.array()});
     }
-  let hashedpassword = users.hashPassword(req.body.password);
+  
   users.findOne({ username: req.body.username })
     .then((user) => {
       if (user) {
